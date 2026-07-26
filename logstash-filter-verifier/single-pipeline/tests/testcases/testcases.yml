@@ -1,0 +1,27 @@
+codec: json_lines
+ignore:
+  - '@timestamp'
+testcases:
+  - description: Foo Logs
+    input:
+      - >
+        {
+          "message": "hi",
+          "service": "foo"
+        }
+    expected:
+      - message: hi
+        service: foo
+        pipeline: two
+
+  - description: Bar Logs
+    input:
+      - >
+        {
+          "message": "hi",
+          "service": "bar"
+        }
+    expected:
+      - message: hi
+        service: bar
+        pipeline: three

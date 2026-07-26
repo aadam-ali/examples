@@ -1,0 +1,29 @@
+services:
+  logstash-filter-verifier:
+    image: logstash-filter-verifier
+    build:
+      dockerfile: Dockerfile.test
+      args:
+        USER: ${USER:-user}
+
+    volumes:
+      - ../pipelines:/usr/share/logstash/pipeline
+      - ./testcases:/usr/share/logstash/tests
+
+    entrypoint: [/usr/bin/logstash-filter-verifier]
+    command:
+      - /usr/share/logstash/tests/testcases.yml
+      - /usr/share/logstash/pipeline
+
+  logstash-config-verifier:
+    image: ${USER:-user}/logstash-single:latest
+    build:
+      dockerfile: Dockerfile
+      context: ..
+
+    volumes:
+      - ../pipelines:/usr/share/logstash/pipeline
+
+    entrypoint: [/usr/share/logstash/bin/logstash]
+    command:
+      - --config.test_and_exit

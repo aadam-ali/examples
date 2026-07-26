@@ -1,0 +1,13 @@
+ARG USER=user
+
+FROM ${USER}/logstash-single:latest
+
+USER root
+
+RUN microdnf install -y diffutils wget && microdnf clean all
+
+RUN wget --progress=dot:giga https://github.com/magnusbaeck/logstash-filter-verifier/releases/download/1.6.3/logstash-filter-verifier_1.6.3_linux_amd64.tar.gz && \
+  tar xzf logstash-filter-verifier_1.6.3_linux_amd64.tar.gz -C /usr/bin && \
+  rm logstash-filter-verifier_1.6.3_linux_amd64.tar.gz
+
+USER logstash
